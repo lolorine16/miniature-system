@@ -1,0 +1,28 @@
+# === Java ===
+*.class
+*.log
+
+# === Dossiers générés ===
+out/
+bin/
+target/
+build/
+
+# === IntelliJ IDEA ===
+.idea/
+*.iml
+
+# === NetBeans ===
+nbproject/private/
+dist/
+nbbuild/
+
+# === Eclipse (au cas où) ===
+.project
+.classpath
+.settings/
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
