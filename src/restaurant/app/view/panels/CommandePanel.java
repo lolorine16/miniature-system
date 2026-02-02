@@ -1,16 +1,15 @@
 package restaurant.app.view.panels;
 
 import java.awt.*;
-import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import restaurant.app.controller.CommandeController;
 import restaurant.app.model.entities.Commande;
 import restaurant.app.model.enums.EtatCommande;
+import restaurant.app.util.FormatUtil;
 import restaurant.app.view.MainFrame;
 import restaurant.app.view.components.ModernButton;
 import restaurant.app.view.components.ModernTable;
@@ -24,7 +23,6 @@ import restaurant.app.view.components.ModernTable;
 public class CommandePanel extends JPanel implements MainFrame.Refreshable {
     
     private final CommandeController commandeController;
-    private final NumberFormat currencyFormat;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     
     private JComboBox<String> filterCombo;
@@ -38,7 +36,6 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
      */
     public CommandePanel() {
         this.commandeController = new CommandeController();
-        this.currencyFormat = NumberFormat.getCurrencyInstance(Locale.FRANCE);
         
         setLayout(new BorderLayout());
         setBackground(new Color(243, 244, 246));
@@ -324,7 +321,7 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
                     c.getId(),
                     c.getDateCommande() != null ? c.getDateCommande().format(dateFormatter) : "-",
                     etatIcon + " " + c.getEtat().getLibelle(),
-                    currencyFormat.format(c.getTotal()),
+                    FormatUtil.formatCurrency(c.getTotal()),
                     "Actions"
             });
         }

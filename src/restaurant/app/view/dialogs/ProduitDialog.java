@@ -92,10 +92,10 @@ public class ProduitDialog extends JDialog {
         rowPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         rowPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 75));
         
-        prixField = new ModernTextField("0.00");
+        prixField = new ModernTextField("0");
         stockField = new ModernTextField("0");
         
-        rowPanel.add(createFieldPanel("Prix (€) *", prixField));
+        rowPanel.add(createFieldPanel("Prix (FCFA) *", prixField));
         rowPanel.add(createFieldPanel("Stock initial", stockField));
         mainPanel.add(rowPanel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 12)));

@@ -2,12 +2,11 @@ package restaurant.app.view.panels;
 
 import java.awt.*;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import restaurant.app.controller.StatistiqueController;
+import restaurant.app.util.FormatUtil;
 import restaurant.app.view.MainFrame;
 import restaurant.app.view.components.DashboardCard;
 
@@ -21,7 +20,6 @@ import restaurant.app.view.components.DashboardCard;
 public class DashboardPanel extends JPanel implements MainFrame.Refreshable {
     
     private final StatistiqueController statistiqueController;
-    private final NumberFormat currencyFormat;
     
     // Cartes du dashboard
     private DashboardCard commandesCard;
@@ -34,7 +32,6 @@ public class DashboardPanel extends JPanel implements MainFrame.Refreshable {
      */
     public DashboardPanel() {
         this.statistiqueController = new StatistiqueController();
-        this.currencyFormat = NumberFormat.getCurrencyInstance(Locale.FRANCE);
         
         setLayout(new BorderLayout());
         setBackground(new Color(243, 244, 246));
@@ -280,7 +277,7 @@ public class DashboardPanel extends JPanel implements MainFrame.Refreshable {
         
         // Chiffre d'affaires
         BigDecimal ca = (BigDecimal) stats.get("chiffreAffairesDuJour");
-        caCard.setValue(currencyFormat.format(ca != null ? ca : BigDecimal.ZERO));
+        caCard.setValue(FormatUtil.formatCurrency(ca != null ? ca : BigDecimal.ZERO));
         
         // En attente
         Integer enAttente = (Integer) stats.get("commandesEnAttente");

@@ -196,42 +196,42 @@ INSERT INTO categories (libelle, description) VALUES
 ('Entrées', 'Entrées et apéritifs'),
 ('Snacks', 'Snacks et encas rapides');
 
--- Produits
+-- Produits (prix en FCFA)
 INSERT INTO produits (nom, categorie_id, prix_vente, stock_actuel, seuil_alerte, description) VALUES
 -- Boissons
-('Coca-Cola 33cl', 1, 2.50, 100, 20, 'Canette de Coca-Cola classique'),
-('Fanta Orange 33cl', 1, 2.50, 80, 20, 'Canette de Fanta Orange'),
-('Sprite 33cl', 1, 2.50, 75, 20, 'Canette de Sprite'),
-('Eau Minérale 50cl', 1, 1.50, 150, 30, 'Bouteille d''eau minérale'),
-('Jus d''Orange 25cl', 1, 3.00, 50, 15, 'Jus d''orange frais'),
-('Café Expresso', 1, 1.80, 200, 50, 'Café expresso italien'),
-('Thé Menthe', 1, 2.00, 100, 25, 'Thé à la menthe marocain'),
+('Coca-Cola 33cl', 1, 500, 100, 20, 'Canette de Coca-Cola classique'),
+('Fanta Orange 33cl', 1, 500, 80, 20, 'Canette de Fanta Orange'),
+('Sprite 33cl', 1, 500, 75, 20, 'Canette de Sprite'),
+('Eau Minérale 50cl', 1, 300, 150, 30, 'Bouteille d''eau minérale'),
+('Jus d''Orange 25cl', 1, 750, 50, 15, 'Jus d''orange frais'),
+('Café Expresso', 1, 350, 200, 50, 'Café expresso italien'),
+('Thé Menthe', 1, 400, 100, 25, 'Thé à la menthe'),
 
 -- Plats Principaux
-('Burger Classic', 2, 8.50, 30, 10, 'Burger boeuf avec salade, tomate, oignon'),
-('Burger Cheese', 2, 9.50, 25, 10, 'Burger boeuf avec cheddar fondu'),
-('Burger Double', 2, 12.00, 20, 8, 'Double steak de boeuf avec fromage'),
-('Pizza Margherita', 2, 10.00, 15, 5, 'Pizza tomate, mozzarella, basilic'),
-('Pizza Pepperoni', 2, 12.00, 15, 5, 'Pizza avec pepperoni épicé'),
-('Tacos Poulet', 2, 7.50, 40, 10, 'Tacos garni de poulet grillé'),
-('Wrap Végétarien', 2, 6.50, 25, 8, 'Wrap aux légumes frais'),
+('Burger Classic', 2, 2500, 30, 10, 'Burger boeuf avec salade, tomate, oignon'),
+('Burger Cheese', 2, 3000, 25, 10, 'Burger boeuf avec cheddar fondu'),
+('Burger Double', 2, 4000, 20, 8, 'Double steak de boeuf avec fromage'),
+('Pizza Margherita', 2, 3500, 15, 5, 'Pizza tomate, mozzarella, basilic'),
+('Pizza Pepperoni', 2, 4000, 15, 5, 'Pizza avec pepperoni épicé'),
+('Tacos Poulet', 2, 2000, 40, 10, 'Tacos garni de poulet grillé'),
+('Wrap Végétarien', 2, 1800, 25, 8, 'Wrap aux légumes frais'),
 
 -- Desserts
-('Tiramisu', 3, 5.50, 20, 5, 'Tiramisu traditionnel italien'),
-('Fondant Chocolat', 3, 6.00, 15, 5, 'Fondant au chocolat noir'),
-('Crème Brûlée', 3, 5.00, 18, 5, 'Crème brûlée à la vanille'),
-('Salade de Fruits', 3, 4.50, 25, 8, 'Salade de fruits frais de saison'),
-('Glace 2 Boules', 3, 3.50, 50, 15, 'Glace artisanale au choix'),
+('Tiramisu', 3, 1500, 20, 5, 'Tiramisu traditionnel italien'),
+('Fondant Chocolat', 3, 1750, 15, 5, 'Fondant au chocolat noir'),
+('Crème Brûlée', 3, 1250, 18, 5, 'Crème brûlée à la vanille'),
+('Salade de Fruits', 3, 1000, 25, 8, 'Salade de fruits frais de saison'),
+('Glace 2 Boules', 3, 800, 50, 15, 'Glace artisanale au choix'),
 
 -- Entrées
-('Salade César', 4, 7.00, 20, 5, 'Salade César avec poulet grillé'),
-('Soupe du Jour', 4, 4.50, 30, 10, 'Soupe fraîche du jour'),
-('Bruschetta', 4, 5.50, 25, 8, 'Bruschetta tomate basilic'),
+('Salade César', 4, 2000, 20, 5, 'Salade César avec poulet grillé'),
+('Soupe du Jour', 4, 1000, 30, 10, 'Soupe fraîche du jour'),
+('Bruschetta', 4, 1500, 25, 8, 'Bruschetta tomate basilic'),
 
 -- Snacks
-('Frites Portion', 5, 3.50, 60, 15, 'Portion de frites croustillantes'),
-('Nuggets x6', 5, 5.00, 40, 10, 'Box de 6 nuggets de poulet'),
-('Onion Rings', 5, 4.00, 35, 10, 'Rondelles d''oignon panées');
+('Frites Portion', 5, 800, 60, 15, 'Portion de frites croustillantes'),
+('Nuggets x6', 5, 1250, 40, 10, 'Box de 6 nuggets de poulet'),
+('Onion Rings', 5, 1000, 35, 10, 'Rondelles d''oignon panées');
 
 -- Quelques mouvements de stock initiaux
 INSERT INTO mouvements_stock (produit_id, type, quantite, motif, utilisateur_id) VALUES
@@ -240,20 +240,20 @@ INSERT INTO mouvements_stock (produit_id, type, quantite, motif, utilisateur_id)
 (8, 'ENTREE', 30, 'Stock initial', 1),
 (9, 'ENTREE', 25, 'Stock initial', 1);
 
--- Quelques commandes de test
+-- Quelques commandes de test (prix en FCFA)
 INSERT INTO commandes (etat, utilisateur_id, client_nom, client_telephone, total) VALUES
-('LIVREE', 2, 'Martin Legrand', '0612345678', 23.50),
-('LIVREE', 2, 'Sophie Durant', '0698765432', 18.00),
+('LIVREE', 2, 'Martin Legrand', '0612345678', 6300),
+('LIVREE', 2, 'Sophie Durant', '0698765432', 4800),
 ('EN_PREPARATION', 3, NULL, NULL, 0);
 
--- Lignes de commande pour les commandes de test
+-- Lignes de commande pour les commandes de test (prix en FCFA)
 INSERT INTO lignes_commande (commande_id, produit_id, quantite, prix_unitaire, montant_ligne) VALUES
-(1, 8, 2, 8.50, 17.00),
-(1, 1, 2, 2.50, 5.00),
-(1, 24, 1, 3.50, 3.50),
-(2, 11, 1, 10.00, 10.00),
-(2, 4, 2, 1.50, 3.00),
-(2, 18, 1, 5.00, 5.00);
+(1, 8, 2, 2500, 5000),
+(1, 1, 2, 500, 1000),
+(1, 24, 1, 800, 800),
+(2, 11, 1, 3500, 3500),
+(2, 4, 2, 300, 600),
+(2, 18, 1, 1500, 1500);
 
 -- ============================================
 -- FIN DU SCRIPT

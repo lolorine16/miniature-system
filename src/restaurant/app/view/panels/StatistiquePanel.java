@@ -2,13 +2,12 @@ package restaurant.app.view.panels;
 
 import java.awt.*;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import restaurant.app.controller.StatistiqueController;
+import restaurant.app.util.FormatUtil;
 import restaurant.app.view.MainFrame;
 
 /**
@@ -20,7 +19,6 @@ import restaurant.app.view.MainFrame;
 public class StatistiquePanel extends JPanel implements MainFrame.Refreshable {
     
     private final StatistiqueController statistiqueController;
-    private final NumberFormat currencyFormat;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
     private JComboBox<String> periodCombo;
@@ -31,7 +29,6 @@ public class StatistiquePanel extends JPanel implements MainFrame.Refreshable {
      */
     public StatistiquePanel() {
         this.statistiqueController = new StatistiqueController();
-        this.currencyFormat = NumberFormat.getCurrencyInstance(Locale.FRANCE);
         
         setLayout(new BorderLayout());
         setBackground(new Color(243, 244, 246));
@@ -274,13 +271,13 @@ public class StatistiquePanel extends JPanel implements MainFrame.Refreshable {
         // CA du jour
         BigDecimal caDuJour = (BigDecimal) stats.get("chiffreAffairesDuJour");
         statsPanel.add(createKPICard("Chiffre d'affaires du jour",
-                currencyFormat.format(caDuJour != null ? caDuJour : BigDecimal.ZERO),
+                FormatUtil.formatCurrency(caDuJour != null ? caDuJour : BigDecimal.ZERO),
                 "Ventes du jour", new Color(34, 197, 94)));
         
         // CA du mois
         BigDecimal caMois = (BigDecimal) stats.get("chiffreAffairesMois");
         statsPanel.add(createKPICard("Chiffre d'affaires du mois",
-                currencyFormat.format(caMois != null ? caMois : BigDecimal.ZERO),
+                FormatUtil.formatCurrency(caMois != null ? caMois : BigDecimal.ZERO),
                 "Depuis le 1er du mois", new Color(59, 130, 246)));
         
         // Commandes du jour

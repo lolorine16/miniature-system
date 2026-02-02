@@ -1,9 +1,7 @@
 package restaurant.app.view.panels;
 
 import java.awt.*;
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -11,6 +9,7 @@ import restaurant.app.controller.CategorieController;
 import restaurant.app.controller.ProduitController;
 import restaurant.app.model.entities.Categorie;
 import restaurant.app.model.entities.Produit;
+import restaurant.app.util.FormatUtil;
 import restaurant.app.view.MainFrame;
 import restaurant.app.view.components.ModernButton;
 import restaurant.app.view.components.ModernTable;
@@ -27,7 +26,6 @@ public class ProduitPanel extends JPanel implements MainFrame.Refreshable {
     
     private final ProduitController produitController;
     private final CategorieController categorieController;
-    private final NumberFormat currencyFormat;
     
     private SearchField searchField;
     private JComboBox<String> categorieFilter;
@@ -44,7 +42,6 @@ public class ProduitPanel extends JPanel implements MainFrame.Refreshable {
     public ProduitPanel() {
         this.produitController = new ProduitController();
         this.categorieController = new CategorieController();
-        this.currencyFormat = NumberFormat.getCurrencyInstance(Locale.FRANCE);
         
         setLayout(new BorderLayout());
         setBackground(new Color(243, 244, 246));
@@ -322,7 +319,7 @@ public class ProduitPanel extends JPanel implements MainFrame.Refreshable {
                     p.getId(),
                     p.getNom(),
                     categorieName,
-                    currencyFormat.format(p.getPrixVente()),
+                    FormatUtil.formatCurrency(p.getPrixVente()),
                     stockDisplay,
                     p.isActif() ? "✅" : "❌"
             });
