@@ -8,6 +8,15 @@ bin/
 target/
 build/
 
+# === Dépendances / Librairies ===
+lib/
+*.jar
+
+# === Configuration sensible ===
+config.properties
+**/config.properties
+!config.properties.example
+
 # === IntelliJ IDEA ===
 .idea/
 *.iml
