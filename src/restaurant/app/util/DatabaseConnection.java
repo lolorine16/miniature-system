@@ -71,8 +71,10 @@ public class DatabaseConnection {
     }
     
     /**
-     * Établit et retourne une connexion à la base de données.
-     * @return La connexion active
+     * Établit et retourne une nouvelle connexion à la base de données.
+     * Chaque appel crée une nouvelle connexion pour éviter les problèmes
+     * de ResultSet fermé lors d'appels imbriqués.
+     * @return Une nouvelle connexion
      * @throws SQLException en cas d'erreur de connexion
      */
     public Connection getConnection() throws SQLException {
@@ -80,12 +82,8 @@ public class DatabaseConnection {
             // Charger le driver JDBC
             Class.forName(driver);
             
-            // Vérifier si la connexion est valide
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(url, user, password);
-            }
-            
-            return connection;
+            // Créer une nouvelle connexion à chaque appel
+            return DriverManager.getConnection(url, user, password);
             
         } catch (ClassNotFoundException e) {
             throw new SQLException("Driver MySQL non trouvé: " + e.getMessage(), e);
