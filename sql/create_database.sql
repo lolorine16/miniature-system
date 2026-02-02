@@ -84,7 +84,7 @@ CREATE TABLE mouvements_stock (
 CREATE TABLE commandes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     date_commande TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    etat ENUM('EN_COURS', 'VALIDEE', 'ANNULEE') DEFAULT 'EN_COURS',
+    etat ENUM('EN_ATTENTE', 'EN_PREPARATION', 'PRETE', 'LIVREE', 'ANNULEE') DEFAULT 'EN_ATTENTE',
     total DECIMAL(10,2) DEFAULT 0,
     utilisateur_id INT,
     client_nom VARCHAR(150),
@@ -242,9 +242,9 @@ INSERT INTO mouvements_stock (produit_id, type, quantite, motif, utilisateur_id)
 
 -- Quelques commandes de test
 INSERT INTO commandes (etat, utilisateur_id, client_nom, client_telephone, total) VALUES
-('VALIDEE', 2, 'Martin Legrand', '0612345678', 23.50),
-('VALIDEE', 2, 'Sophie Durant', '0698765432', 18.00),
-('EN_COURS', 3, NULL, NULL, 0);
+('LIVREE', 2, 'Martin Legrand', '0612345678', 23.50),
+('LIVREE', 2, 'Sophie Durant', '0698765432', 18.00),
+('EN_PREPARATION', 3, NULL, NULL, 0);
 
 -- Lignes de commande pour les commandes de test
 INSERT INTO lignes_commande (commande_id, produit_id, quantite, prix_unitaire, montant_ligne) VALUES
