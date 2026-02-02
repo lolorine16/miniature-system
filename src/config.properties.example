@@ -1,0 +1,36 @@
+# ============================================
+# Configuration de l'application Restaurant
+# ============================================
+# FICHIER EXEMPLE - Copiez ce fichier vers config.properties
+# et modifiez les valeurs selon votre environnement
+# ============================================
+
+# Configuration de la base de données MySQL
+db.host=localhost
+db.port=3306
+db.name=restaurant_db
+db.user=VOTRE_UTILISATEUR
+db.password=VOTRE_MOT_DE_PASSE
+
+# URL complète (alternative)
+db.url=jdbc:mysql://localhost:3306/restaurant_db
+db.driver=com.mysql.cj.jdbc.Driver
+
+# Pool de connexions
+db.pool.minSize=2
+db.pool.maxSize=10
+db.pool.timeout=30000
+
+# Configuration de l'application
+app.name=Restaurant Manager
+app.version=1.0.0
+app.author=Restaurant App Team
+
+# Configuration de l'interface
+ui.theme=FlatLaf
+ui.font=Montserrat
+ui.fontSize=14
+
+# Chemins des ressources
+app.fonts.path=resources/fonts/
+app.images.path=resources/images/
