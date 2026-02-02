@@ -3,9 +3,15 @@
 -- Application de Gestion de Restaurant
 -- ============================================
 
--- Création de la base de données
-DROP DATABASE IF EXISTS restaurant_db;
+-- Créer la base de données
 CREATE DATABASE restaurant_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Créer un utilisateur dédié (optionnel mais recommandé)
+CREATE USER 'restaurant_user'@'localhost' IDENTIFIED BY 'restaurant123';
+GRANT ALL PRIVILEGES ON restaurant_db.* TO 'restaurant_user'@'localhost';
+FLUSH PRIVILEGES;
+
+-- Création de la base de données
 USE restaurant_db;
 
 -- ============================================
