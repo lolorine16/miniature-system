@@ -1,7 +1,7 @@
 package restaurant.app.model.entities;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
+import restaurant.app.model.enums.RoleUtilisateur;
 import restaurant.app.model.enums.RoleUtilisateur;
 
 /**

@@ -9,8 +9,8 @@
 db.host=localhost
 db.port=3306
 db.name=restaurant_db
-db.user=VOTRE_UTILISATEUR
-db.password=VOTRE_MOT_DE_PASSE
+db.user=VOTRE_UTILISATEUR # ou soit restaurant_user
+db.password=VOTRE_MOT_DE_PASSE # ou soit restaurant123
 
 # URL complète (alternative)
 db.url=jdbc:mysql://localhost:3306/restaurant_db

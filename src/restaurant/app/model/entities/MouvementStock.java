@@ -1,9 +1,8 @@
 package restaurant.app.model.entities;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
 import restaurant.app.model.enums.TypeMouvement;
 
+import restaurant.app.model.enums.TypeMouvement;
 /**
  * Entité représentant un mouvement de stock (entrée ou sortie).
  * Permet de tracer l'historique des modifications de stock.

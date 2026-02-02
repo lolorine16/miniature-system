@@ -1,12 +1,11 @@
 package restaurant.app.model.entities;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import restaurant.app.model.enums.EtatCommande;
 
+import restaurant.app.model.enums.EtatCommande;
 /**
  * Entité représentant une commande client.
  * Contient les lignes de commande et gère le cycle de vie de la commande.
