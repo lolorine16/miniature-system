@@ -40,21 +40,21 @@ public class DatabaseConnection {
             if (input != null) {
                 props.load(input);
                 this.url = props.getProperty("db.url", "jdbc:mysql://localhost:3306/restaurant_db");
-                this.user = props.getProperty("db.user", "root");
-                this.password = props.getProperty("db.password", "");
+                this.user = props.getProperty("db.user", "restaurant_user");
+                this.password = props.getProperty("db.password", "restaurant123");
                 this.driver = props.getProperty("db.driver", "com.mysql.cj.jdbc.Driver");
             } else {
                 // Valeurs par défaut si le fichier n'existe pas
                 this.url = "jdbc:mysql://localhost:3306/restaurant_db";
-                this.user = "root";
-                this.password = "";
+                this.user = "restaurant_user";
+                this.password = "restaurant123";
                 this.driver = "com.mysql.cj.jdbc.Driver";
             }
         } catch (IOException e) {
             // Utiliser les valeurs par défaut
             this.url = "jdbc:mysql://localhost:3306/restaurant_db";
-            this.user = "root";
-            this.password = "";
+            this.user = "restaurant_user";
+            this.password = "restaurant123";
             this.driver = "com.mysql.cj.jdbc.Driver";
         }
     }
