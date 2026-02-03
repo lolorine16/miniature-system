@@ -7,6 +7,11 @@ Application de bureau complète pour la gestion d'un restaurant/fast-food, déve
 ![MySQL](https://img.shields.io/badge/Database-MySQL-blue?style=flat-square&logo=mysql)
 ![FlatLaf](https://img.shields.io/badge/Theme-FlatLaf-green?style=flat-square)
 
+<p align="center">
+  <img src="docs/chartDoc.png" alt="App preview 1" width="400"/>
+  <img src="docs/prodDoc.png" alt="App preview 2" width="400"/>
+</p>
+
 ---
 
 ## Fonctionnalités
