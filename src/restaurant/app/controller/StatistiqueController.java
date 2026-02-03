@@ -192,6 +192,20 @@ public class StatistiqueController {
     }
     
     /**
+     * Récupère les produits les plus vendus avec leurs quantités.
+     * @param limite Le nombre maximum de résultats
+     * @return Map nom produit -> quantité vendue
+     * @throws Exception en cas d'erreur
+     */
+    public Map<String, Integer> getVentesParProduit(int limite) throws Exception {
+        try {
+            return produitDAO.findBestSellersWithQuantity(limite);
+        } catch (SQLException e) {
+            throw new Exception("Erreur: " + e.getMessage(), e);
+        }
+    }
+    
+    /**
      * Récupère le nombre de produits en rupture de stock.
      * @return Le nombre de produits
      * @throws Exception en cas d'erreur

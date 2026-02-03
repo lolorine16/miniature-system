@@ -2,7 +2,9 @@ package restaurant.app.dao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import restaurant.app.model.entities.Categorie;
 import restaurant.app.model.entities.Produit;
 import restaurant.app.util.DatabaseConnection;
@@ -475,6 +477,38 @@ public class ProduitDAO {
         return produits;
     }
     
+    /**
+     * Récupère les produits les plus vendus avec leurs quantités.
+     * @param limite Nombre maximum de produits à retourner
+     * @return Map nom produit -> quantité vendue
+     * @throws SQLException en cas d'erreur SQL
+     */
+    public Map<String, Integer> findBestSellersWithQuantity(int limite) throws SQLException {
+        Map<String, Integer> result = new LinkedHashMap<>();
+        String sql = "SELECT p.nom, COALESCE(SUM(lc.quantite), 0) as total_vendu " +
+                     "FROM produits p " +
+                     "LEFT JOIN lignes_commande lc ON p.id = lc.produit_id " +
+                     "LEFT JOIN commandes cmd ON lc.commande_id = cmd.id AND cmd.etat != 'ANNULEE' " +
+                     "WHERE p.actif = TRUE " +
+                     "GROUP BY p.id, p.nom " +
+                     "ORDER BY total_vendu DESC " +
+                     "LIMIT ?";
+        
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, limite);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    result.put(rs.getString("nom"), rs.getInt("total_vendu"));
+                }
+            }
+        }
+        
+        return result;
+    }
+
     /**
      * Compte le nombre de produits en rupture de stock.
      * @return Le nombre de produits en rupture
