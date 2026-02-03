@@ -181,12 +181,19 @@ public class DashboardPanel extends JPanel implements MainFrame.Refreshable {
      * @param panelName Le nom du panel
      */
     private void navigateTo(String panelName) {
-        Container parent = getParent();
-        while (parent != null && !(parent instanceof MainFrame)) {
-            parent = parent.getParent();
+        // Remonter la hierarchie pour trouver MainFrame
+        Component comp = this;
+        while (comp != null) {
+            if (comp instanceof MainFrame) {
+                ((MainFrame) comp).showPanel(panelName);
+                return;
+            }
+            comp = comp.getParent();
         }
-        if (parent instanceof MainFrame) {
-            ((MainFrame) parent).showPanel(panelName);
+        // Alternative: utiliser SwingUtilities
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window instanceof MainFrame) {
+            ((MainFrame) window).showPanel(panelName);
         }
     }
     

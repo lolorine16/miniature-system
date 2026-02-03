@@ -34,7 +34,12 @@ public class StockPanel extends JPanel implements MainFrame.Refreshable {
     
     private List<Produit> produits;
     
-    private static final String[] COLUMNS = {"ID", "Date", "Produit", "Type", "Quantité", "Stock avant", "Stock après", "Motif"};
+    // Labels pour les alertes
+    private JLabel stockFaibleValueLabel;
+    private JLabel ruptureValueLabel;
+    private JLabel valeurStockValueLabel;
+    
+    private static final String[] COLUMNS = {"ID", "Date", "Produit", "Type", "Quantite", "Stock avant", "Stock apres", "Motif"};
     
     /**
      * Constructeur.
@@ -111,10 +116,10 @@ public class StockPanel extends JPanel implements MainFrame.Refreshable {
         filterCombo.setPreferredSize(new Dimension(180, 45));
         filterCombo.addActionListener(e -> filterMouvements());
         
-        ModernButton entreeButton = new ModernButton("➕ Entrée", ModernButton.ButtonType.SUCCESS);
+        ModernButton entreeButton = new ModernButton("Entree", ModernButton.ButtonType.SUCCESS);
         entreeButton.addActionListener(e -> showMouvementDialog(TypeMouvement.ENTREE));
         
-        ModernButton sortieButton = new ModernButton("➖ Sortie", ModernButton.ButtonType.DANGER);
+        ModernButton sortieButton = new ModernButton("Sortie", ModernButton.ButtonType.DANGER);
         sortieButton.addActionListener(e -> showMouvementDialog(TypeMouvement.SORTIE));
         
         actionsPanel.add(filterCombo);
@@ -128,7 +133,7 @@ public class StockPanel extends JPanel implements MainFrame.Refreshable {
     }
     
     /**
-     * Crée le panel des alertes.
+     * Cree le panel des alertes.
      * @return Le panel
      */
     private JPanel createAlertsPanel() {
@@ -146,33 +151,45 @@ public class StockPanel extends JPanel implements MainFrame.Refreshable {
         panel.setBorder(new EmptyBorder(20, 20, 20, 20));
         panel.setPreferredSize(new Dimension(0, 100));
         
-        // Ces valeurs seront mises à jour dynamiquement
-        panel.add(createAlertCard("⚠️", "Stock faible", "Chargement...", new Color(245, 158, 11)));
-        panel.add(createAlertCard("🚫", "En rupture", "Chargement...", new Color(239, 68, 68)));
-        panel.add(createAlertCard("💰", "Valeur stock", "Chargement...", new Color(34, 197, 94)));
+        // Creer les cartes avec leurs labels
+        JPanel card1 = createAlertCardWithLabel("Stock faible", new Color(245, 158, 11));
+        stockFaibleValueLabel = (JLabel) card1.getClientProperty("valueLabel");
+        
+        JPanel card2 = createAlertCardWithLabel("En rupture", new Color(239, 68, 68));
+        ruptureValueLabel = (JLabel) card2.getClientProperty("valueLabel");
+        
+        JPanel card3 = createAlertCardWithLabel("Valeur stock", new Color(34, 197, 94));
+        valeurStockValueLabel = (JLabel) card3.getClientProperty("valueLabel");
+        
+        panel.add(card1);
+        panel.add(card2);
+        panel.add(card3);
         
         return panel;
     }
     
     /**
-     * Crée une carte d'alerte.
+     * Cree une carte d'alerte avec label stocke.
      */
-    private JPanel createAlertCard(String icon, String title, String value, Color color) {
+    private JPanel createAlertCardWithLabel(String title, Color color) {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setOpaque(false);
         
-        JLabel iconLabel = new JLabel(icon + " " + title);
-        iconLabel.setFont(new Font("Montserrat", Font.BOLD, 14));
-        iconLabel.setForeground(color.darker());
+        JLabel titleLabel = new JLabel(title);
+        titleLabel.setFont(new Font("Montserrat", Font.BOLD, 14));
+        titleLabel.setForeground(color.darker());
         
-        JLabel valueLabel = new JLabel(value);
+        JLabel valueLabel = new JLabel("0");
         valueLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
         valueLabel.setForeground(new Color(31, 41, 55));
         
-        card.add(iconLabel);
+        card.add(titleLabel);
         card.add(Box.createRigidArea(new Dimension(0, 5)));
         card.add(valueLabel);
+        
+        // Stocker le label pour mise a jour ulterieure
+        card.putClientProperty("valueLabel", valueLabel);
         
         return card;
     }
@@ -231,8 +248,39 @@ public class StockPanel extends JPanel implements MainFrame.Refreshable {
     private void loadProduits() {
         try {
             produits = produitController.getAllProduits();
+            updateAlerts();
         } catch (Exception e) {
             // Ignorer
+        }
+    }
+    
+    /**
+     * Met a jour les alertes de stock.
+     */
+    private void updateAlerts() {
+        if (produits == null) return;
+        
+        int stockFaible = 0;
+        int rupture = 0;
+        double valeurTotale = 0;
+        
+        for (Produit p : produits) {
+            if (p.getStockActuel() <= 0) {
+                rupture++;
+            } else if (p.getStockActuel() <= p.getSeuilAlerte()) {
+                stockFaible++;
+            }
+            valeurTotale += p.getStockActuel() * p.getPrixVente();
+        }
+        
+        if (stockFaibleValueLabel != null) {
+            stockFaibleValueLabel.setText(String.valueOf(stockFaible));
+        }
+        if (ruptureValueLabel != null) {
+            ruptureValueLabel.setText(String.valueOf(rupture));
+        }
+        if (valeurStockValueLabel != null) {
+            valeurStockValueLabel.setText(restaurant.app.util.FormatUtil.formatCurrency(valeurTotale));
         }
     }
     
@@ -311,13 +359,13 @@ public class StockPanel extends JPanel implements MainFrame.Refreshable {
                 }
             }
             
-            String typeIcon = m.getType() == TypeMouvement.ENTREE ? "🟢" : "🔴";
+            String typeText = m.getType().getLibelle();
             
             tableModel.addRow(new Object[]{
                     m.getId(),
                     m.getDateMouvement() != null ? m.getDateMouvement().format(dateFormatter) : "-",
                     produitNom,
-                    typeIcon + " " + m.getType().getLibelle(),
+                    typeText,
                     m.getQuantite(),
                     "-",
                     "-",
