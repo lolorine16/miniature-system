@@ -82,8 +82,8 @@ public class MouvementStockDialog extends JDialog {
         mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
         
         // Motif
-        motifField = new ModernTextField("Motif (optionnel)");
-        mainPanel.add(createFieldPanel("Motif", motifField));
+        motifField = new ModernTextField("Motif du mouvement");
+        mainPanel.add(createFieldPanel("Motif *", motifField));
         mainPanel.add(Box.createRigidArea(new Dimension(0, 25)));
         
         // Boutons
