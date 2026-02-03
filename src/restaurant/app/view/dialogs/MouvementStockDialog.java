@@ -54,11 +54,11 @@ public class MouvementStockDialog extends JDialog {
         mainPanel.setBorder(new EmptyBorder(25, 30, 25, 30));
         mainPanel.setBackground(Color.WHITE);
         
-        // Icône et titre
-        String icon = type == TypeMouvement.ENTREE ? "📥" : "📤";
+    // Icône et titre
+        String titleText = type == TypeMouvement.ENTREE ? "Entrée de stock" : "Sortie de stock";
         Color titleColor = type == TypeMouvement.ENTREE ? new Color(34, 197, 94) : new Color(239, 68, 68);
         
-        JLabel titleLabel = new JLabel(icon + " " + (type == TypeMouvement.ENTREE ? "Entrée de stock" : "Sortie de stock"));
+        JLabel titleLabel = new JLabel(titleText);
         titleLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
         titleLabel.setForeground(titleColor);
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);

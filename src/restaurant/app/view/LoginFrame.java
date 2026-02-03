@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import restaurant.app.controller.UtilisateurController;
 import restaurant.app.model.entities.Utilisateur;
+import restaurant.app.util.IconUtil;
 import restaurant.app.view.components.ModernButton;
 import restaurant.app.view.components.ModernPasswordField;
 import restaurant.app.view.components.ModernTextField;
@@ -98,8 +99,11 @@ public class LoginFrame extends JFrame {
         cardPanel.setPreferredSize(new Dimension(380, 450));
         
         // Logo / Icône
-        JLabel iconLabel = new JLabel("🍽️");
-        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
+        JLabel iconLabel = new JLabel();
+        ImageIcon utensilsIcon = IconUtil.getUtensilsIcon(64);
+        if (utensilsIcon != null) {
+            iconLabel.setIcon(utensilsIcon);
+        }
         iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Titre

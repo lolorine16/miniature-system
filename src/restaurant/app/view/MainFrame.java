@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import restaurant.app.controller.UtilisateurController;
 import restaurant.app.model.entities.Utilisateur;
 import restaurant.app.model.enums.RoleUtilisateur;
+import restaurant.app.util.IconUtil;
 import restaurant.app.view.panels.*;
 
 /**
@@ -130,25 +131,25 @@ public class MainFrame extends JFrame {
         menuPanel.setBackground(SIDEBAR_BG);
         menuPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
         
-        // Items du menu
-        menuPanel.add(createMenuItem(DASHBOARD, "📊", "Tableau de bord"));
-        menuPanel.add(createMenuItem(COMMANDES, "🛒", "Commandes"));
+        // Items du menu (sans emojis)
+        menuPanel.add(createMenuItem(DASHBOARD, "", "Tableau de bord"));
+        menuPanel.add(createMenuItem(COMMANDES, "", "Commandes"));
         
         // Séparateur gestion
         menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         menuPanel.add(createMenuSection("GESTION"));
         
-        menuPanel.add(createMenuItem(CATEGORIES, "📁", "Catégories"));
-        menuPanel.add(createMenuItem(PRODUITS, "🍔", "Produits"));
-        menuPanel.add(createMenuItem(STOCK, "📦", "Stock"));
+        menuPanel.add(createMenuItem(CATEGORIES, "", "Catégories"));
+        menuPanel.add(createMenuItem(PRODUITS, "", "Produits"));
+        menuPanel.add(createMenuItem(STOCK, "", "Stock"));
         
         // Séparateur rapports (admin)
         if (utilisateur.getRole() == RoleUtilisateur.ADMIN) {
             menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
             menuPanel.add(createMenuSection("ADMINISTRATION"));
             
-            menuPanel.add(createMenuItem(STATISTIQUES, "📈", "Statistiques"));
-            menuPanel.add(createMenuItem(UTILISATEURS, "👥", "Utilisateurs"));
+            menuPanel.add(createMenuItem(STATISTIQUES, "", "Statistiques"));
+            menuPanel.add(createMenuItem(UTILISATEURS, "", "Utilisateurs"));
         }
         
         sidebar.add(menuPanel);
@@ -174,12 +175,22 @@ public class MainFrame extends JFrame {
         header.setBorder(new EmptyBorder(25, 20, 25, 20));
         header.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         
-        JLabel logoLabel = new JLabel("🍽️ Restaurant App");
+        JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        logoPanel.setBackground(SIDEBAR_BG);
+        
+        ImageIcon utensilsIcon = IconUtil.getUtensilsIcon(24);
+        if (utensilsIcon != null) {
+            JLabel iconLabel = new JLabel(utensilsIcon);
+            logoPanel.add(iconLabel);
+        }
+        
+        JLabel logoLabel = new JLabel("Restaurant App");
         logoLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
         logoLabel.setForeground(TEXT_COLOR);
-        logoLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        logoPanel.add(logoLabel);
         
-        header.add(logoLabel);
+        logoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        header.add(logoPanel);
         
         return header;
     }
@@ -366,9 +377,10 @@ public class MainFrame extends JFrame {
         userInfo.add(nameLabel);
         userInfo.add(roleLabel);
         
-        // Bouton déconnexion
-        JLabel logoutLabel = new JLabel("🚪");
-        logoutLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 18));
+        // Bouton déconnexion (texte simple)
+        JLabel logoutLabel = new JLabel("Quitter");
+        logoutLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        logoutLabel.setForeground(new Color(239, 68, 68));
         logoutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         logoutLabel.setToolTipText("Déconnexion");
         logoutLabel.addMouseListener(new MouseAdapter() {

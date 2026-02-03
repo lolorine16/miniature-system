@@ -105,7 +105,7 @@ public class UtilisateurPanel extends JPanel implements MainFrame.Refreshable {
             public void changedUpdate(javax.swing.event.DocumentEvent e) { searchUtilisateurs(); }
         });
         
-        ModernButton addButton = new ModernButton("➕ Nouvel utilisateur", ModernButton.ButtonType.PRIMARY);
+        ModernButton addButton = new ModernButton("Nouvel utilisateur", ModernButton.ButtonType.PRIMARY);
         addButton.addActionListener(e -> showAddDialog());
         
         actionsPanel.add(roleFilter);
@@ -170,13 +170,13 @@ public class UtilisateurPanel extends JPanel implements MainFrame.Refreshable {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         bottomPanel.setOpaque(false);
         
-        ModernButton editButton = new ModernButton("✏️ Modifier", ModernButton.ButtonType.INFO);
+        ModernButton editButton = new ModernButton("Modifier", ModernButton.ButtonType.INFO);
         editButton.addActionListener(e -> editSelected());
         
-        ModernButton toggleButton = new ModernButton("🔒 Activer/Désactiver", ModernButton.ButtonType.WARNING);
+        ModernButton toggleButton = new ModernButton("Activer/Désactiver", ModernButton.ButtonType.WARNING);
         toggleButton.addActionListener(e -> toggleSelected());
         
-        ModernButton deleteButton = new ModernButton("🗑️ Supprimer", ModernButton.ButtonType.DANGER);
+        ModernButton deleteButton = new ModernButton("Supprimer", ModernButton.ButtonType.DANGER);
         deleteButton.addActionListener(e -> deleteSelected());
         
         bottomPanel.add(editButton);
@@ -275,15 +275,15 @@ public class UtilisateurPanel extends JPanel implements MainFrame.Refreshable {
         tableModel.setRowCount(0);
         
         for (Utilisateur u : utilisateurs) {
-            String roleIcon = u.getRole() == RoleUtilisateur.ADMIN ? "👑" : "👤";
+            String roleText = u.getRole().getLibelle();
             
             tableModel.addRow(new Object[]{
                     u.getId(),
                     u.getLogin(),
                     u.getNomComplet(),
                     "",
-                    roleIcon + " " + u.getRole().getLibelle(),
-                    u.isActif() ? "✅" : "❌"
+                    roleText,
+                    u.isActif() ? "Oui" : "Non"
             });
         }
     }
@@ -348,7 +348,7 @@ public class UtilisateurPanel extends JPanel implements MainFrame.Refreshable {
         
         int id = (int) tableModel.getValueAt(row, 0);
         String actifStr = (String) tableModel.getValueAt(row, 5);
-        boolean currentlyActive = actifStr.contains("✅");
+        boolean currentlyActive = actifStr.equals("Oui");
         
         try {
             utilisateurController.setActif(id, !currentlyActive);

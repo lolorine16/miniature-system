@@ -97,7 +97,7 @@ public class CategoriePanel extends JPanel implements MainFrame.Refreshable {
             public void changedUpdate(javax.swing.event.DocumentEvent e) { searchCategories(); }
         });
         
-        ModernButton addButton = new ModernButton("➕ Nouvelle catégorie", ModernButton.ButtonType.PRIMARY);
+        ModernButton addButton = new ModernButton("Nouvelle catégorie", ModernButton.ButtonType.PRIMARY);
         addButton.addActionListener(e -> showAddDialog());
         
         actionsPanel.add(searchField);
@@ -162,10 +162,10 @@ public class CategoriePanel extends JPanel implements MainFrame.Refreshable {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         bottomPanel.setOpaque(false);
         
-        ModernButton editButton = new ModernButton("✏️ Modifier", ModernButton.ButtonType.INFO);
+        ModernButton editButton = new ModernButton("Modifier", ModernButton.ButtonType.INFO);
         editButton.addActionListener(e -> editSelected());
         
-        ModernButton deleteButton = new ModernButton("🗑️ Supprimer", ModernButton.ButtonType.DANGER);
+        ModernButton deleteButton = new ModernButton("Supprimer", ModernButton.ButtonType.DANGER);
         deleteButton.addActionListener(e -> deleteSelected());
         
         bottomPanel.add(editButton);
@@ -238,7 +238,7 @@ public class CategoriePanel extends JPanel implements MainFrame.Refreshable {
                     cat.getId(),
                     cat.getLibelle(),
                     cat.getDescription() != null ? cat.getDescription() : "-",
-                    "✅ Actif",
+                    "Actif",
                     "Actions"
             });
         }

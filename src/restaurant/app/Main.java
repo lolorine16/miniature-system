@@ -6,6 +6,7 @@ package restaurant.app;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import restaurant.app.util.DatabaseConnection;
+import restaurant.app.util.IconUtil;
 import restaurant.app.view.LoginFrame;
 
 import javax.swing.*;
@@ -213,9 +214,8 @@ public class Main {
         panel.setOpaque(false);
         panel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
         
-        // Icône restaurant (emoji ou texte)
-        JLabel iconLabel = new JLabel("🍽️", SwingConstants.CENTER);
-        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 72));
+        // Icône restaurant (image PNG)
+        JLabel iconLabel = new JLabel(IconUtil.getUtensilsIcon(72), SwingConstants.CENTER);
         iconLabel.setForeground(Color.WHITE);
         
         // Titre

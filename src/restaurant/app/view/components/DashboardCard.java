@@ -197,7 +197,7 @@ public class DashboardCard extends JPanel {
      * @return La carte
      */
     public static DashboardCard createCommandesCard(int count) {
-        return new DashboardCard("Commandes du jour", String.valueOf(count), "🛒", CardType.PRIMARY);
+        return new DashboardCard("Commandes du jour", String.valueOf(count), "", CardType.PRIMARY);
     }
     
     /**
@@ -206,7 +206,7 @@ public class DashboardCard extends JPanel {
      * @return La carte
      */
     public static DashboardCard createCACard(String montant) {
-        return new DashboardCard("Chiffre d'affaires", montant, "💰", CardType.SUCCESS);
+        return new DashboardCard("Chiffre d'affaires", montant, "", CardType.SUCCESS);
     }
     
     /**
@@ -216,8 +216,7 @@ public class DashboardCard extends JPanel {
      */
     public static DashboardCard createStockAlertCard(int count) {
         CardType type = count > 0 ? CardType.WARNING : CardType.SUCCESS;
-        String icon = count > 0 ? "⚠️" : "✅";
-        return new DashboardCard("Alertes stock", String.valueOf(count), icon, type);
+        return new DashboardCard("Alertes stock", String.valueOf(count), "", type);
     }
     
     /**
@@ -227,7 +226,6 @@ public class DashboardCard extends JPanel {
      */
     public static DashboardCard createRuptureCard(int count) {
         CardType type = count > 0 ? CardType.DANGER : CardType.SUCCESS;
-        String icon = count > 0 ? "🚫" : "✅";
-        return new DashboardCard("Produits en rupture", String.valueOf(count), icon, type);
+        return new DashboardCard("Produits en rupture", String.valueOf(count), "", type);
     }
 }

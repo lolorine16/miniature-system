@@ -103,7 +103,7 @@ public class DashboardPanel extends JPanel implements MainFrame.Refreshable {
         titlePanel.add(subtitleLabel);
         
         // Bouton rafraîchir
-        JButton refreshButton = new JButton("🔄 Actualiser");
+        JButton refreshButton = new JButton("Actualiser");
         refreshButton.setFont(new Font("Montserrat", Font.PLAIN, 13));
         refreshButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         refreshButton.addActionListener(e -> refresh());
@@ -123,11 +123,11 @@ public class DashboardPanel extends JPanel implements MainFrame.Refreshable {
         section.setOpaque(false);
         section.setMaximumSize(new Dimension(Integer.MAX_VALUE, 130));
         
-        // Cartes
-        commandesCard = new DashboardCard("Commandes du jour", "0", "🛒", DashboardCard.CardType.PRIMARY);
-        caCard = new DashboardCard("Chiffre d'affaires", "0 €", "💰", DashboardCard.CardType.SUCCESS);
-        enAttenteCard = new DashboardCard("En attente", "0", "⏳", DashboardCard.CardType.WARNING);
-        ruptureCard = new DashboardCard("Ruptures stock", "0", "📦", DashboardCard.CardType.DANGER);
+        // Cartes (sans icônes emoji)
+        commandesCard = new DashboardCard("Commandes du jour", "0", "", DashboardCard.CardType.PRIMARY);
+        caCard = new DashboardCard("Chiffre d'affaires", "0 FCFA", "", DashboardCard.CardType.SUCCESS);
+        enAttenteCard = new DashboardCard("En attente", "0", "", DashboardCard.CardType.WARNING);
+        ruptureCard = new DashboardCard("Ruptures stock", "0", "", DashboardCard.CardType.DANGER);
         
         section.add(commandesCard);
         section.add(caCard);
@@ -158,9 +158,9 @@ public class DashboardPanel extends JPanel implements MainFrame.Refreshable {
         buttonsPanel.setOpaque(false);
         buttonsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
-        buttonsPanel.add(createActionButton("➕ Nouvelle commande", new Color(59, 130, 246)));
-        buttonsPanel.add(createActionButton("📦 Entrée de stock", new Color(34, 197, 94)));
-        buttonsPanel.add(createActionButton("🍔 Nouveau produit", new Color(139, 92, 246)));
+        buttonsPanel.add(createActionButton("Nouvelle commande", new Color(59, 130, 246)));
+        buttonsPanel.add(createActionButton("Entrée de stock", new Color(34, 197, 94)));
+        buttonsPanel.add(createActionButton("Nouveau produit", new Color(139, 92, 246)));
         
         section.add(buttonsPanel);
         

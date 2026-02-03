@@ -111,7 +111,7 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
         filterCombo.setPreferredSize(new Dimension(180, 45));
         filterCombo.addActionListener(e -> filterCommandes());
         
-        ModernButton newButton = new ModernButton("➕ Nouvelle commande", ModernButton.ButtonType.PRIMARY);
+        ModernButton newButton = new ModernButton("Nouvelle commande", ModernButton.ButtonType.PRIMARY);
         newButton.addActionListener(e -> createNewCommande());
         
         actionsPanel.add(filterCombo);
@@ -132,10 +132,10 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
         panel.setOpaque(false);
         panel.setPreferredSize(new Dimension(0, 80));
         
-        panel.add(createStatusCard("⏳ En attente", "0", new Color(245, 158, 11)));
-        panel.add(createStatusCard("👨‍🍳 En préparation", "0", new Color(59, 130, 246)));
-        panel.add(createStatusCard("✅ Prêtes", "0", new Color(34, 197, 94)));
-        panel.add(createStatusCard("🏁 Terminées", "0", new Color(107, 114, 128)));
+        panel.add(createStatusCard("En attente", "0", new Color(245, 158, 11)));
+        panel.add(createStatusCard("En préparation", "0", new Color(59, 130, 246)));
+        panel.add(createStatusCard("Prêtes", "0", new Color(34, 197, 94)));
+        panel.add(createStatusCard("Terminées", "0", new Color(107, 114, 128)));
         
         return panel;
     }
@@ -228,16 +228,16 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         bottomPanel.setOpaque(false);
         
-        ModernButton validerButton = new ModernButton("✅ Valider", ModernButton.ButtonType.SUCCESS);
+        ModernButton validerButton = new ModernButton("Valider", ModernButton.ButtonType.SUCCESS);
         validerButton.addActionListener(e -> validerCommande());
         
-        ModernButton preteButton = new ModernButton("🍽️ Prête", ModernButton.ButtonType.INFO);
+        ModernButton preteButton = new ModernButton("Prête", ModernButton.ButtonType.INFO);
         preteButton.addActionListener(e -> marquerPrete());
         
-        ModernButton servieButton = new ModernButton("🏁 Servie", ModernButton.ButtonType.SECONDARY);
+        ModernButton servieButton = new ModernButton("Servie", ModernButton.ButtonType.SECONDARY);
         servieButton.addActionListener(e -> marquerServie());
         
-        ModernButton annulerButton = new ModernButton("❌ Annuler", ModernButton.ButtonType.DANGER);
+        ModernButton annulerButton = new ModernButton("Annuler", ModernButton.ButtonType.DANGER);
         annulerButton.addActionListener(e -> annulerCommande());
         
         bottomPanel.add(validerButton);
@@ -328,17 +328,11 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
     }
     
     /**
-     * Retourne l'icône d'un état.
+     * Retourne l'icône d'un état (texte simple).
      */
     private String getEtatIcon(EtatCommande etat) {
-        switch (etat) {
-            case EN_ATTENTE: return "⏳";
-            case EN_PREPARATION: return "👨‍🍳";
-            case PRETE: return "✅";
-            case LIVREE: return "🏁";
-            case ANNULEE: return "❌";
-            default: return "❓";
-        }
+        // Suppression des emojis - retourne une chaîne vide
+        return "";
     }
     
     /**

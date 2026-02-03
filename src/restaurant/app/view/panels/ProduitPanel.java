@@ -113,7 +113,7 @@ public class ProduitPanel extends JPanel implements MainFrame.Refreshable {
             public void changedUpdate(javax.swing.event.DocumentEvent e) { searchProduits(); }
         });
         
-        ModernButton addButton = new ModernButton("➕ Nouveau produit", ModernButton.ButtonType.PRIMARY);
+        ModernButton addButton = new ModernButton("Nouveau produit", ModernButton.ButtonType.PRIMARY);
         addButton.addActionListener(e -> showAddDialog());
         
         actionsPanel.add(categorieFilter);
@@ -180,10 +180,10 @@ public class ProduitPanel extends JPanel implements MainFrame.Refreshable {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         bottomPanel.setOpaque(false);
         
-        ModernButton editButton = new ModernButton("✏️ Modifier", ModernButton.ButtonType.INFO);
+        ModernButton editButton = new ModernButton("Modifier", ModernButton.ButtonType.INFO);
         editButton.addActionListener(e -> editSelected());
         
-        ModernButton deleteButton = new ModernButton("🗑️ Supprimer", ModernButton.ButtonType.DANGER);
+        ModernButton deleteButton = new ModernButton("Supprimer", ModernButton.ButtonType.DANGER);
         deleteButton.addActionListener(e -> deleteSelected());
         
         bottomPanel.add(editButton);
@@ -310,9 +310,9 @@ public class ProduitPanel extends JPanel implements MainFrame.Refreshable {
             // Colorer le stock si faible
             String stockDisplay = String.valueOf(p.getStockActuel());
             if (p.getStockActuel() <= 0) {
-                stockDisplay = "❌ " + p.getStockActuel();
+                stockDisplay = "RUPTURE (" + p.getStockActuel() + ")";
             } else if (p.getStockActuel() <= 10) {
-                stockDisplay = "⚠️ " + p.getStockActuel();
+                stockDisplay = "Faible (" + p.getStockActuel() + ")";
             }
             
             tableModel.addRow(new Object[]{
@@ -321,7 +321,7 @@ public class ProduitPanel extends JPanel implements MainFrame.Refreshable {
                     categorieName,
                     FormatUtil.formatCurrency(p.getPrixVente()),
                     stockDisplay,
-                    p.isActif() ? "✅" : "❌"
+                    p.isActif() ? "Oui" : "Non"
             });
         }
     }

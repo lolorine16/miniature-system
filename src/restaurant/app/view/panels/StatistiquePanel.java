@@ -94,7 +94,7 @@ public class StatistiquePanel extends JPanel implements MainFrame.Refreshable {
         periodCombo.setPreferredSize(new Dimension(180, 45));
         periodCombo.addActionListener(e -> loadData());
         
-        JButton exportButton = new JButton("📊 Exporter");
+        JButton exportButton = new JButton("Exporter");
         exportButton.setFont(new Font("Montserrat", Font.PLAIN, 13));
         
         actionsPanel.add(periodCombo);
@@ -193,7 +193,7 @@ public class StatistiquePanel extends JPanel implements MainFrame.Refreshable {
         panel.setPreferredSize(new Dimension(0, 300));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
         
-        JLabel titleLabel = new JLabel("📈 Évolution du chiffre d'affaires");
+        JLabel titleLabel = new JLabel("Évolution du chiffre d'affaires");
         titleLabel.setFont(new Font("Montserrat", Font.BOLD, 16));
         titleLabel.setForeground(new Color(31, 41, 55));
         
