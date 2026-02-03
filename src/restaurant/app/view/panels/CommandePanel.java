@@ -37,7 +37,7 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
     private JLabel pretesCountLabel;
     private JLabel termineesCountLabel;
     
-    private static final String[] COLUMNS = {"N", "Date", "Etat", "Total"};
+    private static final String[] COLUMNS = {"N", "Date", "Client", "Telephone", "Etat", "Total", "Notes"};
     
     /**
      * Constructeur.
@@ -108,7 +108,8 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
         
         // Filtre par état
         filterCombo = new JComboBox<>(new String[]{
-                "Toutes les commandes",
+                "Commandes du jour",
+                "Historique (toutes)",
                 "En attente",
                 "En préparation",
                 "Prêtes",
@@ -313,12 +314,13 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
             @Override
             protected List<Commande> doInBackground() throws Exception {
                 switch (selectedIndex) {
-                    case 1: return commandeController.getCommandesByEtat(EtatCommande.EN_ATTENTE);
-                    case 2: return commandeController.getCommandesByEtat(EtatCommande.EN_PREPARATION);
-                    case 3: return commandeController.getCommandesByEtat(EtatCommande.PRETE);
-                    case 4: return commandeController.getCommandesByEtat(EtatCommande.LIVREE);
-                    case 5: return commandeController.getCommandesByEtat(EtatCommande.ANNULEE);
-                    default: return commandeController.getCommandesDuJour();
+                    case 1: return commandeController.getAllCommandes();  // Historique (toutes)
+                    case 2: return commandeController.getCommandesByEtat(EtatCommande.EN_ATTENTE);
+                    case 3: return commandeController.getCommandesByEtat(EtatCommande.EN_PREPARATION);
+                    case 4: return commandeController.getCommandesByEtat(EtatCommande.PRETE);
+                    case 5: return commandeController.getCommandesByEtat(EtatCommande.LIVREE);
+                    case 6: return commandeController.getCommandesByEtat(EtatCommande.ANNULEE);
+                    default: return commandeController.getCommandesDuJour();  // Commandes du jour
                 }
             }
             
@@ -346,8 +348,11 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
             tableModel.addRow(new Object[]{
                     c.getId(),
                     c.getDateCommande() != null ? c.getDateCommande().format(dateFormatter) : "-",
+                    c.getClientNom() != null ? c.getClientNom() : "-",
+                    c.getClientTelephone() != null ? c.getClientTelephone() : "-",
                     c.getEtat().getLibelle(),
-                    FormatUtil.formatCurrency(c.getTotal())
+                    FormatUtil.formatCurrency(c.getTotal()),
+                    c.getNotes() != null ? c.getNotes() : "-"
             });
         }
     }

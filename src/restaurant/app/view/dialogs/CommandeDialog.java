@@ -12,6 +12,7 @@ import restaurant.app.model.entities.Commande;
 import restaurant.app.model.entities.LigneCommande;
 import restaurant.app.model.entities.Produit;
 import restaurant.app.util.FormatUtil;
+import restaurant.app.view.components.ModernTextField;
 
 /**
  * Dialogue pour creer ou modifier une commande.
@@ -28,6 +29,11 @@ public class CommandeDialog extends JDialog {
     private Commande commande;
     private List<Produit> produits;
     private List<LigneCommande> lignesCommande;
+    
+    // Champs client
+    private ModernTextField clientNomField;
+    private ModernTextField clientTelephoneField;
+    private ModernTextField notesField;
     
     private JComboBox<String> produitCombo;
     private JSpinner quantiteSpinner;
@@ -69,7 +75,7 @@ public class CommandeDialog extends JDialog {
         initComponents();
         updateTotal();
         
-        setSize(700, 550);
+        setSize(750, 650);
         setLocationRelativeTo(parent);
         setResizable(false);
     }
@@ -89,7 +95,7 @@ public class CommandeDialog extends JDialog {
      * Initialise les composants.
      */
     private void initComponents() {
-        JPanel mainPanel = new JPanel(new BorderLayout(0, 15));
+        JPanel mainPanel = new JPanel(new BorderLayout(0, 10));
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         mainPanel.setBackground(Color.WHITE);
         
@@ -99,21 +105,28 @@ public class CommandeDialog extends JDialog {
         titleLabel.setForeground(new Color(31, 41, 55));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
         
-        // Panel central
-        JPanel centerPanel = new JPanel(new BorderLayout(0, 15));
+        // Panel central avec scroll
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         centerPanel.setOpaque(false);
+        
+        // Panel informations client
+        JPanel clientPanel = createClientPanel();
+        centerPanel.add(clientPanel);
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         
         // Panel d'ajout de produit
         JPanel addPanel = createAddProductPanel();
-        centerPanel.add(addPanel, BorderLayout.NORTH);
+        centerPanel.add(addPanel);
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         
         // Table des lignes
         JPanel tablePanel = createTablePanel();
-        centerPanel.add(tablePanel, BorderLayout.CENTER);
+        centerPanel.add(tablePanel);
         
         // Total
         JPanel totalPanel = createTotalPanel();
-        centerPanel.add(totalPanel, BorderLayout.SOUTH);
+        centerPanel.add(totalPanel);
         
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         
@@ -122,6 +135,49 @@ public class CommandeDialog extends JDialog {
         mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
         
         setContentPane(mainPanel);
+    }
+    
+    /**
+     * Cree le panel des informations client.
+     */
+    private JPanel createClientPanel() {
+        JPanel panel = new JPanel(new GridLayout(1, 3, 10, 0));
+        panel.setOpaque(false);
+        panel.setBorder(BorderFactory.createTitledBorder("Informations client"));
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+        
+        // Nom client
+        JPanel nomPanel = new JPanel(new BorderLayout(5, 0));
+        nomPanel.setOpaque(false);
+        JLabel nomLabel = new JLabel("Nom client:");
+        nomLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        clientNomField = new ModernTextField("Nom du client");
+        nomPanel.add(nomLabel, BorderLayout.NORTH);
+        nomPanel.add(clientNomField, BorderLayout.CENTER);
+        
+        // Telephone
+        JPanel telPanel = new JPanel(new BorderLayout(5, 0));
+        telPanel.setOpaque(false);
+        JLabel telLabel = new JLabel("Telephone:");
+        telLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        clientTelephoneField = new ModernTextField("Numero de telephone");
+        telPanel.add(telLabel, BorderLayout.NORTH);
+        telPanel.add(clientTelephoneField, BorderLayout.CENTER);
+        
+        // Notes
+        JPanel notesPanel = new JPanel(new BorderLayout(5, 0));
+        notesPanel.setOpaque(false);
+        JLabel notesLabel = new JLabel("Notes:");
+        notesLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        notesField = new ModernTextField("Notes (ex: sans oignon)");
+        notesPanel.add(notesLabel, BorderLayout.NORTH);
+        notesPanel.add(notesField, BorderLayout.CENTER);
+        
+        panel.add(nomPanel);
+        panel.add(telPanel);
+        panel.add(notesPanel);
+        
+        return panel;
     }
     
     /**
@@ -341,9 +397,23 @@ public class CommandeDialog extends JDialog {
         }
         
         try {
+            // Recuperer les informations client
+            String clientNom = clientNomField.getText().trim();
+            String clientTelephone = clientTelephoneField.getText().trim();
+            String notes = notesField.getText().trim();
+            
+            // Vider si c'est le placeholder
+            if (clientNom.equals("Nom du client")) clientNom = "";
+            if (clientTelephone.equals("Numero de telephone")) clientTelephone = "";
+            if (notes.equals("Notes (ex: sans oignon)")) notes = "";
+            
             if (commande == null) {
-                // Nouvelle commande
-                commande = commandeController.creerCommande();
+                // Nouvelle commande avec infos client
+                commande = commandeController.creerCommande(
+                        clientNom.isEmpty() ? null : clientNom,
+                        clientTelephone.isEmpty() ? null : clientTelephone,
+                        notes.isEmpty() ? null : notes
+                );
             }
             
             // Ajouter les lignes
