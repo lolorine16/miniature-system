@@ -280,7 +280,15 @@ public class MainFrame extends JFrame {
     }
     
     /**
-     * Sélectionne un item du menu.
+     * Affiche un panel specifique (methode publique).
+     * @param name Le nom du panel
+     */
+    public void showPanel(String name) {
+        selectMenuItem(name);
+    }
+    
+    /**
+     * Selectionne un item du menu.
      * @param name Le nom de l'item
      */
     private void selectMenuItem(String name) {

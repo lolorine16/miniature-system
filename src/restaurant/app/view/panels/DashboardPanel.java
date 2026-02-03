@@ -158,13 +158,36 @@ public class DashboardPanel extends JPanel implements MainFrame.Refreshable {
         buttonsPanel.setOpaque(false);
         buttonsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
-        buttonsPanel.add(createActionButton("Nouvelle commande", new Color(59, 130, 246)));
-        buttonsPanel.add(createActionButton("Entrée de stock", new Color(34, 197, 94)));
-        buttonsPanel.add(createActionButton("Nouveau produit", new Color(139, 92, 246)));
+        JButton cmdButton = createActionButton("Nouvelle commande", new Color(59, 130, 246));
+        cmdButton.addActionListener(e -> navigateTo("Commandes"));
+        
+        JButton stockButton = createActionButton("Entree de stock", new Color(34, 197, 94));
+        stockButton.addActionListener(e -> navigateTo("Produits"));
+        
+        JButton produitButton = createActionButton("Nouveau produit", new Color(139, 92, 246));
+        produitButton.addActionListener(e -> navigateTo("Produits"));
+        
+        buttonsPanel.add(cmdButton);
+        buttonsPanel.add(stockButton);
+        buttonsPanel.add(produitButton);
         
         section.add(buttonsPanel);
         
         return section;
+    }
+    
+    /**
+     * Navigue vers un panel specifique.
+     * @param panelName Le nom du panel
+     */
+    private void navigateTo(String panelName) {
+        Container parent = getParent();
+        while (parent != null && !(parent instanceof MainFrame)) {
+            parent = parent.getParent();
+        }
+        if (parent instanceof MainFrame) {
+            ((MainFrame) parent).showPanel(panelName);
+        }
     }
     
     /**

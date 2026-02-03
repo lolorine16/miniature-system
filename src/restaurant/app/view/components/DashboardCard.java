@@ -6,43 +6,40 @@ import javax.swing.border.EmptyBorder;
 
 /**
  * Carte de tableau de bord moderne pour afficher des statistiques.
- * Design moderne avec icône, valeur et libellé.
+ * Design epure avec valeur et libelle.
  * 
  * @author Restaurant App
  * @version 1.0
  */
 public class DashboardCard extends JPanel {
     
-    private JLabel iconLabel;
     private JLabel valueLabel;
     private JLabel titleLabel;
     private Color accentColor;
     
     /**
-     * Types de cartes prédéfinis.
+     * Types de cartes predefinis.
      */
     public enum CardType {
-        PRIMARY(new Color(59, 130, 246), new Color(239, 246, 255)),
-        SUCCESS(new Color(34, 197, 94), new Color(240, 253, 244)),
-        WARNING(new Color(245, 158, 11), new Color(255, 251, 235)),
-        DANGER(new Color(239, 68, 68), new Color(254, 242, 242)),
-        INFO(new Color(6, 182, 212), new Color(236, 254, 255)),
-        PURPLE(new Color(139, 92, 246), new Color(245, 243, 255));
+        PRIMARY(new Color(59, 130, 246)),
+        SUCCESS(new Color(34, 197, 94)),
+        WARNING(new Color(245, 158, 11)),
+        DANGER(new Color(239, 68, 68)),
+        INFO(new Color(6, 182, 212)),
+        PURPLE(new Color(139, 92, 246));
         
         private final Color accent;
-        private final Color background;
         
-        CardType(Color accent, Color background) {
+        CardType(Color accent) {
             this.accent = accent;
-            this.background = background;
         }
     }
     
     /**
      * Constructeur complet.
      * @param title Le titre de la carte
-     * @param value La valeur à afficher
-     * @param icon L'icône (emoji ou texte)
+     * @param value La valeur a afficher
+     * @param icon Ignore - conserve pour compatibilite
      * @param type Le type de carte
      */
     public DashboardCard(String title, String value, String icon, CardType type) {
@@ -52,87 +49,43 @@ public class DashboardCard extends JPanel {
     }
     
     /**
-     * Constructeur simplifié.
+     * Constructeur simplifie.
      * @param title Le titre
      * @param value La valeur
      * @param type Le type
      */
     public DashboardCard(String title, String value, CardType type) {
-        this(title, value, getDefaultIcon(type), type);
-    }
-    
-    /**
-     * Retourne l'icône par défaut selon le type.
-     * @param type Le type de carte
-     * @return L'icône
-     */
-    private static String getDefaultIcon(CardType type) {
-        switch (type) {
-            case PRIMARY: return "📊";
-            case SUCCESS: return "✅";
-            case WARNING: return "⚠️";
-            case DANGER: return "🔴";
-            case INFO: return "ℹ️";
-            case PURPLE: return "💜";
-            default: return "📌";
-        }
+        this(title, value, "", type);
     }
     
     /**
      * Initialise les composants.
      */
     private void initComponents(String title, String value, String icon, CardType type) {
-        setLayout(new BorderLayout(15, 0));
-        setBorder(new EmptyBorder(20, 20, 20, 20));
+        setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(20, 25, 20, 25));
         
-        // Panel gauche avec icône
-        JPanel iconPanel = new JPanel();
-        iconPanel.setOpaque(false);
-        iconPanel.setPreferredSize(new Dimension(60, 60));
-        iconPanel.setLayout(new GridBagLayout());
-        
-        iconLabel = new JLabel(icon);
-        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 28));
-        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        iconPanel.add(iconLabel);
-        
-        // Cercle de fond pour l'icône
-        JPanel iconCircle = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(type.accent.brighter().brighter());
-                g2.fillOval(0, 0, getWidth(), getHeight());
-                g2.dispose();
-            }
-        };
-        iconCircle.setOpaque(false);
-        iconCircle.setPreferredSize(new Dimension(55, 55));
-        iconCircle.setLayout(new GridBagLayout());
-        iconCircle.add(iconLabel);
-        
-        // Panel central avec valeur et titre
+        // Panel central avec titre et valeur
         JPanel contentPanel = new JPanel();
         contentPanel.setOpaque(false);
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         
-        valueLabel = new JLabel(value);
-        valueLabel.setFont(new Font("Montserrat", Font.BOLD, 28));
-        valueLabel.setForeground(new Color(31, 41, 55));
-        valueLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
+        // Titre en haut
         titleLabel = new JLabel(title);
-        titleLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        titleLabel.setFont(new Font("Montserrat", Font.PLAIN, 13));
         titleLabel.setForeground(new Color(107, 114, 128));
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
-        contentPanel.add(valueLabel);
-        contentPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        contentPanel.add(titleLabel);
+        // Valeur grande
+        valueLabel = new JLabel(value);
+        valueLabel.setFont(new Font("Montserrat", Font.BOLD, 32));
+        valueLabel.setForeground(type.accent);
+        valueLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
-        add(iconCircle, BorderLayout.WEST);
+        contentPanel.add(titleLabel);
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 8)));
+        contentPanel.add(valueLabel);
+        
         add(contentPanel, BorderLayout.CENTER);
     }
     
@@ -140,9 +93,9 @@ public class DashboardCard extends JPanel {
      * Initialise le style.
      */
     private void initStyle(CardType type) {
-        setBackground(type.background);
-        setOpaque(true);
-        setPreferredSize(new Dimension(250, 120));
+        setBackground(Color.WHITE);
+        setOpaque(false);
+        setPreferredSize(new Dimension(220, 110));
     }
     
     @Override
@@ -150,21 +103,19 @@ public class DashboardCard extends JPanel {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
-        // Fond avec coins arrondis
-        g2.setColor(getBackground());
+        // Fond blanc avec coins arrondis
+        g2.setColor(Color.WHITE);
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
         
-        // Bordure gauche colorée
+        // Bordure superieure coloree
         g2.setColor(accentColor);
-        g2.fillRoundRect(0, 0, 5, getHeight(), 5, 5);
+        g2.fillRoundRect(0, 0, getWidth(), 4, 4, 4);
         
-        // Ombre légère
-        g2.setColor(new Color(0, 0, 0, 10));
+        // Ombre legere
+        g2.setColor(new Color(0, 0, 0, 15));
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
         
         g2.dispose();
-        
-        super.paintComponent(g);
     }
     
     /**
@@ -184,11 +135,11 @@ public class DashboardCard extends JPanel {
     }
     
     /**
-     * Met à jour l'icône.
-     * @param icon La nouvelle icône
+     * Met a jour l'icone (ignore).
+     * @param icon L'icone
      */
     public void setIcon(String icon) {
-        iconLabel.setText(icon);
+        // Ignore - pas d'icone
     }
     
     /**
