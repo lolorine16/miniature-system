@@ -70,9 +70,10 @@ public class MainFrame extends JFrame {
         setTitle("Restaurant App - " + utilisateur.getNomComplet());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(1200, 800));
-        setSize(1400, 900);
+        // Plein écran (fenêtre maximisée)
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
-    
+
     /**
      * Initialise les composants.
      */
