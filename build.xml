@@ -70,4 +70,14 @@
     nbproject/build-impl.xml file. 
 
     -->
+    
+    <!-- Copier les ressources (pics, fonts) après la compilation -->
+    <target name="-post-compile">
+        <copy todir="${build.classes.dir}/pics">
+            <fileset dir="src/pics"/>
+        </copy>
+        <copy todir="${build.classes.dir}/fonts">
+            <fileset dir="src/fonts"/>
+        </copy>
+    </target>
 </project>
