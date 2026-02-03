@@ -68,6 +68,10 @@ public class ModernTable extends JTable {
         setShowVerticalLines(false);
         setIntercellSpacing(new Dimension(0, 1));
         
+        // Remplir toute la largeur disponible
+        setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        setFillsViewportHeight(true);
+        
         // Focus
         setFocusable(true);
         

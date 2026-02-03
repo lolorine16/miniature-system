@@ -20,6 +20,7 @@ public class IconUtil {
     public static final String ICON_ELLIPSIS = "circle-ellipsis.png";
     public static final String ICON_TRASH = "trash.png";
     public static final String ICON_UTENSILS = "utensils.png";
+    public static final String ICON_UTENSILS_BLACK = "utensils0.png";
     
     /**
      * Charge une icône depuis le dossier pics.
@@ -97,5 +98,14 @@ public class IconUtil {
      */
     public static ImageIcon getUtensilsIcon(int size) {
         return loadIcon(ICON_UTENSILS, size, size);
+    }
+    
+    /**
+     * Charge l'icône du restaurant/utensils en noir (pour fond clair).
+     * @param size La taille (carré)
+     * @return L'ImageIcon
+     */
+    public static ImageIcon getUtensilsBlackIcon(int size) {
+        return loadIcon(ICON_UTENSILS_BLACK, size, size);
     }
 }

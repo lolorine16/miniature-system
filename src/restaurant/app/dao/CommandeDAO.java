@@ -76,10 +76,10 @@ public class CommandeDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Commande commande = mapResultSetToCommande(rs);
-                    // Charger les lignes de commande
+                    // Charger les lignes de commande (utiliser addLigneInternal pour éviter les vérifications d'état)
                     List<LigneCommande> lignes = ligneCommandeDAO.findByCommandeId(id);
                     for (LigneCommande ligne : lignes) {
-                        commande.addLigne(ligne);
+                        commande.addLigneInternal(ligne);
                     }
                     return commande;
                 }

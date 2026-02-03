@@ -110,13 +110,8 @@ public class CommandeController {
      */
     public Commande getCommandeById(int id) throws Exception {
         try {
-            Commande commande = commandeDAO.findById(id);
-            if (commande != null) {
-                List<LigneCommande> lignes = ligneCommandeDAO.findByCommandeId(id);
-                commande.getLignes().clear();
-                commande.getLignes().addAll(lignes);
-            }
-            return commande;
+            // Le DAO charge déjà les lignes avec addLigneInternal
+            return commandeDAO.findById(id);
         } catch (SQLException e) {
             throw new Exception("Erreur lors de la récupération de la commande: " + e.getMessage(), e);
         }

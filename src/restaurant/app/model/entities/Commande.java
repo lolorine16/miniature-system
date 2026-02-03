@@ -150,8 +150,29 @@ public class Commande {
     public List<LigneCommande> getLignes() {
         return Collections.unmodifiableList(lignes);
     }
+    
+    /**
+     * Retourne la liste interne des lignes (pour manipulation directe).
+     * À utiliser uniquement par les DAO pour le chargement depuis la BD.
+     * @return Liste modifiable des lignes de commande
+     */
+    public List<LigneCommande> getLignesInternal() {
+        return lignes;
+    }
 
     // Méthodes métier
+
+    /**
+     * Ajoute une ligne à la commande (pour chargement depuis BD).
+     * Cette méthode ne vérifie pas l'état de la commande.
+     * @param ligne La ligne à ajouter
+     */
+    public void addLigneInternal(LigneCommande ligne) {
+        if (ligne != null) {
+            ligne.setCommande(this);
+            lignes.add(ligne);
+        }
+    }
 
     /**
      * Ajoute une ligne à la commande.

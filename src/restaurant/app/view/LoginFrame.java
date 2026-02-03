@@ -98,9 +98,9 @@ public class LoginFrame extends JFrame {
         cardPanel.setBorder(new EmptyBorder(40, 40, 40, 40));
         cardPanel.setPreferredSize(new Dimension(380, 450));
         
-        // Logo / Icône
+        // Logo / Icône (noir pour le fond blanc)
         JLabel iconLabel = new JLabel();
-        ImageIcon utensilsIcon = IconUtil.getUtensilsIcon(64);
+        ImageIcon utensilsIcon = IconUtil.getUtensilsBlackIcon(64);
         if (utensilsIcon != null) {
             iconLabel.setIcon(utensilsIcon);
         }

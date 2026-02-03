@@ -13,6 +13,8 @@ import restaurant.app.util.FormatUtil;
 import restaurant.app.view.MainFrame;
 import restaurant.app.view.components.ModernButton;
 import restaurant.app.view.components.ModernTable;
+import restaurant.app.view.dialogs.CommandeDetailsDialog;
+import restaurant.app.view.dialogs.CommandeDialog;
 
 /**
  * Panel de gestion des commandes.
@@ -29,7 +31,13 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
     private ModernTable table;
     private DefaultTableModel tableModel;
     
-    private static final String[] COLUMNS = {"N°", "Date", "État", "Total", "Actions"};
+    // Labels des compteurs
+    private JLabel enAttenteCountLabel;
+    private JLabel enPreparationCountLabel;
+    private JLabel pretesCountLabel;
+    private JLabel termineesCountLabel;
+    
+    private static final String[] COLUMNS = {"N", "Date", "Etat", "Total"};
     
     /**
      * Constructeur.
@@ -124,7 +132,7 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
     }
     
     /**
-     * Crée le panel de résumé.
+     * Cree le panel de resume.
      * @return Le panel
      */
     private JPanel createSummaryPanel() {
@@ -132,18 +140,30 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
         panel.setOpaque(false);
         panel.setPreferredSize(new Dimension(0, 80));
         
-        panel.add(createStatusCard("En attente", "0", new Color(245, 158, 11)));
-        panel.add(createStatusCard("En préparation", "0", new Color(59, 130, 246)));
-        panel.add(createStatusCard("Prêtes", "0", new Color(34, 197, 94)));
-        panel.add(createStatusCard("Terminées", "0", new Color(107, 114, 128)));
+        JPanel card1 = createStatusCardWithLabel("En attente", new Color(245, 158, 11));
+        enAttenteCountLabel = (JLabel) card1.getClientProperty("countLabel");
+        
+        JPanel card2 = createStatusCardWithLabel("En preparation", new Color(59, 130, 246));
+        enPreparationCountLabel = (JLabel) card2.getClientProperty("countLabel");
+        
+        JPanel card3 = createStatusCardWithLabel("Pretes", new Color(34, 197, 94));
+        pretesCountLabel = (JLabel) card3.getClientProperty("countLabel");
+        
+        JPanel card4 = createStatusCardWithLabel("Terminees", new Color(107, 114, 128));
+        termineesCountLabel = (JLabel) card4.getClientProperty("countLabel");
+        
+        panel.add(card1);
+        panel.add(card2);
+        panel.add(card3);
+        panel.add(card4);
         
         return panel;
     }
     
     /**
-     * Crée une carte de statut.
+     * Cree une carte de statut avec label stocke.
      */
-    private JPanel createStatusCard(String title, String count, Color color) {
+    private JPanel createStatusCardWithLabel(String title, Color color) {
         JPanel card = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -164,12 +184,15 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
         titleLabel.setFont(new Font("Montserrat", Font.PLAIN, 13));
         titleLabel.setForeground(new Color(107, 114, 128));
         
-        JLabel countLabel = new JLabel(count);
+        JLabel countLabel = new JLabel("0");
         countLabel.setFont(new Font("Montserrat", Font.BOLD, 24));
         countLabel.setForeground(color);
         
         card.add(titleLabel, BorderLayout.NORTH);
         card.add(countLabel, BorderLayout.CENTER);
+        
+        // Stocker le label
+        card.putClientProperty("countLabel", countLabel);
         
         return card;
     }
@@ -202,10 +225,13 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
         
         // Table
         table = new ModernTable(tableModel);
-        table.setColumnWidth(0, 80);
-        table.setColumnWidth(1, 150);
-        table.setColumnWidth(2, 150);
-        table.setColumnWidth(3, 120);
+        
+        // Mode auto-resize pour remplir toute la largeur
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+        
+        // Hauteur de ligne plus grande
+        table.setRowHeight(40);
         
         // Double-clic pour voir les détails
         table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -222,6 +248,7 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
         });
         
         JScrollPane scrollPane = table.wrapInScrollPane();
+        scrollPane.setPreferredSize(new Dimension(700, 400));
         panel.add(scrollPane, BorderLayout.CENTER);
         
         // Boutons d'action
@@ -251,7 +278,7 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
     }
     
     /**
-     * Charge les données.
+     * Charge les donnees.
      */
     private void loadData() {
         SwingWorker<List<Commande>, Void> worker = new SwingWorker<>() {
@@ -265,6 +292,7 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
                 try {
                     List<Commande> commandes = get();
                     updateTable(commandes);
+                    updateCounters(commandes);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(CommandePanel.this,
                             "Erreur: " + e.getMessage(),
@@ -308,58 +336,92 @@ public class CommandePanel extends JPanel implements MainFrame.Refreshable {
     }
     
     /**
-     * Met à jour la table.
+     * Met a jour la table.
      * @param commandes Les commandes
      */
     private void updateTable(List<Commande> commandes) {
         tableModel.setRowCount(0);
         
         for (Commande c : commandes) {
-            String etatIcon = getEtatIcon(c.getEtat());
-            
             tableModel.addRow(new Object[]{
                     c.getId(),
                     c.getDateCommande() != null ? c.getDateCommande().format(dateFormatter) : "-",
-                    etatIcon + " " + c.getEtat().getLibelle(),
-                    FormatUtil.formatCurrency(c.getTotal()),
-                    "Actions"
+                    c.getEtat().getLibelle(),
+                    FormatUtil.formatCurrency(c.getTotal())
             });
         }
     }
     
     /**
-     * Retourne l'icône d'un état (texte simple).
+     * Met a jour les compteurs.
+     * @param commandes Les commandes
      */
-    private String getEtatIcon(EtatCommande etat) {
-        // Suppression des emojis - retourne une chaîne vide
-        return "";
-    }
-    
-    /**
-     * Crée une nouvelle commande.
-     */
-    private void createNewCommande() {
-        try {
-            Commande commande = commandeController.creerCommande();
-            JOptionPane.showMessageDialog(this,
-                    "Commande #" + commande.getId() + " créée",
-                    "Succès", JOptionPane.INFORMATION_MESSAGE);
-            refresh();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Erreur: " + e.getMessage(),
-                    "Erreur", JOptionPane.ERROR_MESSAGE);
+    private void updateCounters(List<Commande> commandes) {
+        int enAttente = 0;
+        int enPreparation = 0;
+        int pretes = 0;
+        int terminees = 0;
+        
+        for (Commande c : commandes) {
+            switch (c.getEtat()) {
+                case EN_ATTENTE:
+                    enAttente++;
+                    break;
+                case EN_PREPARATION:
+                    enPreparation++;
+                    break;
+                case PRETE:
+                    pretes++;
+                    break;
+                case LIVREE:
+                    terminees++;
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        if (enAttenteCountLabel != null) {
+            enAttenteCountLabel.setText(String.valueOf(enAttente));
+        }
+        if (enPreparationCountLabel != null) {
+            enPreparationCountLabel.setText(String.valueOf(enPreparation));
+        }
+        if (pretesCountLabel != null) {
+            pretesCountLabel.setText(String.valueOf(pretes));
+        }
+        if (termineesCountLabel != null) {
+            termineesCountLabel.setText(String.valueOf(terminees));
         }
     }
     
     /**
-     * Affiche les détails d'une commande.
+     * Cree une nouvelle commande.
+     */
+    private void createNewCommande() {
+        CommandeDialog dialog = new CommandeDialog(
+                (Frame) SwingUtilities.getWindowAncestor(this),
+                null
+        );
+        dialog.setVisible(true);
+        
+        if (dialog.isConfirmed()) {
+            JOptionPane.showMessageDialog(this,
+                    "Commande #" + dialog.getCommande().getId() + " creee avec succes!",
+                    "Succes", JOptionPane.INFORMATION_MESSAGE);
+            refresh();
+        }
+    }
+    
+    /**
+     * Affiche les details d'une commande.
      */
     private void showCommandeDetails(int id) {
-        // À implémenter: afficher un dialogue avec les détails
-        JOptionPane.showMessageDialog(this,
-                "Détails de la commande #" + id,
-                "Détails", JOptionPane.INFORMATION_MESSAGE);
+        CommandeDetailsDialog dialog = new CommandeDetailsDialog(
+                (Frame) SwingUtilities.getWindowAncestor(this),
+                id
+        );
+        dialog.setVisible(true);
     }
     
     /**
