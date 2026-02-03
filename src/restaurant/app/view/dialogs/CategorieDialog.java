@@ -81,7 +81,7 @@ public class CategorieDialog extends JDialog {
         mainPanel.add(buttonsPanel);
         
         setContentPane(mainPanel);
-        setPreferredSize(new Dimension(450, 300));
+        setPreferredSize(new Dimension(500, 400));
         setResizable(false);
     }
     

@@ -104,7 +104,7 @@ public class MouvementStockDialog extends JDialog {
         mainPanel.add(buttonsPanel);
         
         setContentPane(mainPanel);
-        setPreferredSize(new Dimension(450, 380));
+        setPreferredSize(new Dimension(500, 500));
         setResizable(false);
     }
     

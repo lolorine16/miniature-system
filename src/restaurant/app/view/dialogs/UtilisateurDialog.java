@@ -116,7 +116,7 @@ public class UtilisateurDialog extends JDialog {
         mainPanel.add(buttonsPanel);
         
         setContentPane(mainPanel);
-        setPreferredSize(new Dimension(500, 580));
+        setPreferredSize(new Dimension(550, 680));
         setResizable(false);
     }
     

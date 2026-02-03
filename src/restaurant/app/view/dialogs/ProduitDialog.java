@@ -125,7 +125,7 @@ public class ProduitDialog extends JDialog {
         mainPanel.add(buttonsPanel);
         
         setContentPane(mainPanel);
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(550, 650));
         setResizable(false);
     }
     

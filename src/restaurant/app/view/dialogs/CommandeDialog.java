@@ -75,7 +75,7 @@ public class CommandeDialog extends JDialog {
         initComponents();
         updateTotal();
         
-        setSize(750, 650);
+        setSize(850, 750);
         setLocationRelativeTo(parent);
         setResizable(false);
     }
