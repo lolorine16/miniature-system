@@ -33,6 +33,34 @@ public class CommandeDAO {
     }
     
     /**
+     * Récupère les dernières commandes.
+     * @param limite Le nombre maximum de commandes à retourner
+     * @return Liste des dernières commandes
+     * @throws SQLException en cas d'erreur SQL
+     */
+    public List<Commande> findRecent(int limite) throws SQLException {
+        List<Commande> commandes = new ArrayList<>();
+        String sql = "SELECT c.*, u.login, u.nom_complet " +
+                     "FROM commandes c " +
+                     "LEFT JOIN utilisateurs u ON c.utilisateur_id = u.id " +
+                     "ORDER BY c.date_commande DESC LIMIT ?";
+        
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, limite);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    commandes.add(mapResultSetToCommande(rs));
+                }
+            }
+        }
+        
+        return commandes;
+    }
+
+    /**
      * Récupère toutes les commandes.
      * @return Liste de toutes les commandes
      * @throws SQLException en cas d'erreur SQL

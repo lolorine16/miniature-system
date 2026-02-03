@@ -530,6 +530,31 @@ public class ProduitDAO {
     }
     
     /**
+     * Recupere les produits en rupture de stock.
+     * @return Liste des produits en rupture
+     * @throws SQLException en cas d'erreur SQL
+     */
+    public List<Produit> findOutOfStock() throws SQLException {
+        List<Produit> produits = new ArrayList<>();
+        String sql = "SELECT p.*, c.libelle as categorie_libelle, c.description as categorie_description " +
+                     "FROM produits p " +
+                     "JOIN categories c ON p.categorie_id = c.id " +
+                     "WHERE p.stock_actuel = 0 AND p.actif = TRUE " +
+                     "ORDER BY p.nom";
+        
+        try (Connection conn = dbConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                produits.add(mapResultSetToProduit(rs));
+            }
+        }
+        
+        return produits;
+    }
+    
+    /**
      * Compte le nombre de produits avec stock bas.
      * @param seuil Le seuil de stock bas
      * @return Le nombre de produits avec stock bas
