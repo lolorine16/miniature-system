@@ -184,9 +184,9 @@ DELIMITER ;
 -- Utilisateurs par défaut (mot de passe hashé SHA-256)
 -- admin123 = 240be518fabd2724ddb6f04eeb9d5b0f5b7c5e9e3c6d7d8e9f0a1b2c3d4e5f6a (exemple)
 INSERT INTO utilisateurs (login, mot_de_passe, nom_complet, role, email) VALUES
-('admin', 'admin123', 'Administrateur Système', 'ADMIN', 'admin@restaurant.com'),
-('employe', 'employe123', 'Employé Test', 'EMPLOYE', 'employe@restaurant.com'),
-('caissier', 'caissier123', 'Jean Dupont', 'EMPLOYE', 'jean.dupont@restaurant.com');
+('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrateur Système', 'ADMIN', 'admin@restaurant.com'),
+('employe', 'c422c301b9f734203ab9cbb82979ca5fed6dc23d858f74fcb6512d1003147ec1', 'Employé Test', 'EMPLOYE', 'employe@restaurant.com'),
+('caissier', 'fc11763703dc22fedc8f7c3809a6555e21af7873a60c2d11ac623d24dd3e542e', 'Jean Dupont', 'EMPLOYE', 'jean.dupont@restaurant.com');
 
 -- Catégories
 INSERT INTO categories (libelle, description) VALUES
